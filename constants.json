@@ -1,0 +1,11 @@
+{
+  "linux": {
+    "PYTHON3_PATH": "venv/bin/python3",
+    "PIP3_PATH": "venv/bin/pip3"
+  },
+
+  "windows": {
+    "PYTHON3_PATH": "venv/Scripts/python.exe",
+    "PIP3_PATH": "venv/Scripts/pip.exe"
+  }
+}

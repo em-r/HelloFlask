@@ -1,10 +1,24 @@
 import os
 import sys
-import subprocess
 import time
+import json
+import subprocess
+import platform
 from random import sample, shuffle
 from string import ascii_lowercase, digits
 from typing import List, Union, Dict
+
+
+def get_os() -> Union[str]:
+    os = platform.system().lower()
+    if 'win' in os:
+        return 'windows'
+
+    elif any(['linux' in os, 'darwin' in os]):
+        return 'linux'
+
+    else:
+        sys.exit('Error: system not supported yet')
 
 
 def gen_folder_name(project_name: str) -> str:
@@ -28,19 +42,40 @@ def read_snippets() -> Dict[str, str]:
     return snippets
 
 
+def get_constants() -> Dict[str, dict]:
+    root_dir = os.path.dirname(__file__)
+    constants_path = os.path.join(root_dir, 'constants.json')
+
+    with open(constants_path) as constant_file:
+        constants = json.load(constant_file)
+
+    return constants
+
+
 def venv_init():
-    init_venv_process = subprocess.run(
-        ['python3', '-m', 'venv', 'venv'], capture_output=True)
-
+    current_os = get_os()
+    if current_os == 'linux':
+        init_venv_process = subprocess.run(
+            ['python3', '-m', 'venv', 'venv'], capture_output=True)
+    else:
+        init_venv_process = subprocess.run(
+            "python -m venv venv", capture_output=False, shell=True)
     if init_venv_process.returncode:
-        stderr = init_venv_process.stderr.decode()
-        sys.exit(stderr)
+        # stderr = init_venv_process.stderr.decode()
+        sys.exit('error')
 
 
-def get_env(project_path) -> List[Union[dict, str]]:
+def get_env(project_path):
     env = os.environ.copy()
-    env['PATH'] = os.path.join(project_path, 'venv/bin/python3')
-    pip = os.path.join(project_path, 'venv/bin/pip3')
+    current_os = get_os()
+
+    paths = get_constants().get(current_os)
+
+    python_path = paths.get('PYTHON3_PATH')
+    pip_path = paths.get('PIP3_PATH')
+    env['PATH'] = os.path.join(project_path, python_path)
+    pip = os.path.join(project_path, pip_path)
+
     return [env, pip]
 
 
@@ -79,12 +114,17 @@ def venv_install_packages(project_path: str):
 
     print('Installing: ', ', '.join(needed_packages))
     start = time.perf_counter()
-    subprocess.run([pip, 'install', *needed_packages], capture_output=True)
+    subprocess.run([pip, 'install', *needed_packages],
+                   capture_output=True, env=env)
     finish = time.perf_counter()
     timing = round(finish - start, 3)
 
     installed_packages, total_packages = get_installed_packages(project_path)
-    print(f'Installed {total_packages} package(s) in {timing} seconds')
+    total_main_packages = len(needed_packages)
+    total_dependencies = total_packages - total_main_packages
+
+    print(
+        f'Installed {total_main_packages} package(s) {total_dependencies} dependencies in {timing} seconds')
     packages = list(map(lambda x: x.replace('==', '@'), installed_packages))
     print('Packages: ', *packages, sep='\n')
 

@@ -2,7 +2,11 @@ import os
 import sys
 import argparse
 from classes import OpenDir
-from controllers import gen_folder_name, venv_init, venv_install_packages, copy_snippets
+# from controllers import gen_folder_name, venv_init, venv_install_packages, copy_snippets
+from controllers.os_utils import gen_folder_name
+from controllers.venv_utils import venv_init
+from controllers.packages_utils import install_packages
+from controllers.snippets_utils import copy_snippets
 
 parser = argparse.ArgumentParser()
 parser.add_argument('project_name', type=str, help='Project name')
@@ -31,5 +35,5 @@ except OSError:
 with OpenDir(project_path):
     print(f'Creating flask project {project_name}')
     print(f'Setting up virtual environment...')
-    venv_install_packages(project_path)
+    install_packages(project_path)
     copy_snippets(project_name)
