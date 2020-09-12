@@ -1,6 +1,8 @@
 __pycache__
+test.py
 venv
 .vscode
 *.spec
 build/
 dist/
+.DS_STORE

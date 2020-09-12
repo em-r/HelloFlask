@@ -3,10 +3,12 @@ import sys
 import subprocess
 from controllers.os_utils import get_os
 from controllers.snippets_utils import get_constants
+from controllers.ui_utils import creating_venv_str
 
 
 def venv_init():
     current_os = get_os()
+    print(creating_venv_str())
     if current_os == 'linux':
         init_venv_process = subprocess.run(
             ['python3', '-m', 'venv', 'venv'], capture_output=True)
@@ -14,8 +16,8 @@ def venv_init():
         init_venv_process = subprocess.run(
             "python -m venv venv", capture_output=False, shell=True)
     if init_venv_process.returncode:
-        # stderr = init_venv_process.stderr.decode()
-        sys.exit('error')
+        stderr = init_venv_process.stderr.decode()
+        sys.exit(stderr)
 
 
 def get_env_vars(project_path):
