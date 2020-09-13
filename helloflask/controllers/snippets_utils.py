@@ -34,6 +34,8 @@ def read_snippets() -> Dict[str, str]:
     snippets = {}
     for file in files:
         file_path = os.path.join(snippets_dir, file)
+        if not os.path.isfile(file_path):
+            continue
         with open(file_path) as snippet:
             snippets[file] = snippet.read()
     return snippets
@@ -46,7 +48,7 @@ def copy_snippets(project_name: str):
         project_name (str): current project name
     """
 
-    from controllers.venv_utils import set_flaskenv
+    from helloflask.controllers.venv_utils import set_flaskenv
     set_flaskenv()
     snippets = read_snippets()
     try:
@@ -56,6 +58,8 @@ def copy_snippets(project_name: str):
         sys.exit(e)
 
     for file, content in snippets.items():
+        if file == '__init__.py':
+            continue
         if file.startswith('app'):
             path = os.path.join(project_name, file)
             with open(path, 'w') as snippet:

@@ -3,7 +3,7 @@ import re
 import sys
 from typing import List
 from colorama import Fore
-from controllers.snippets_utils import get_constants
+from helloflask.controllers.snippets_utils import get_constants
 
 
 def unspecified_project_name():
@@ -91,7 +91,7 @@ def list_packages_str(installed_packages: List[str]) -> str:
 
 
 def success_exit(project_name: str, project_path: str):
-    from controllers.os_utils import get_os
+    from helloflask.controllers.os_utils import get_os
 
     current_os = get_os()
     print(f'Success! Created {project_name} at {project_path}', end='\n\n')

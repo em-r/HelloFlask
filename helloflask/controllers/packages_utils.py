@@ -1,10 +1,10 @@
 import subprocess
 import time
 from typing import List
-from controllers.venv_utils import venv_init, get_env_vars
-from controllers.ui_utils import (installed_packages_str,
-                                  to_be_installed_str,
-                                  list_packages_str)
+from helloflask.controllers.venv_utils import venv_init, get_env_vars
+from helloflask.controllers.ui_utils import (installed_packages_str,
+                                             to_be_installed_str,
+                                             list_packages_str)
 
 
 def get_user_packages() -> List[str]:

@@ -1,10 +1,10 @@
 import os
 import sys
 import subprocess
-from typing import List
-from controllers.os_utils import get_os
-from controllers.snippets_utils import get_constants
-from controllers.ui_utils import creating_venv_str
+from typing import List, Union
+from helloflask.controllers.os_utils import get_os
+from helloflask.controllers.snippets_utils import get_constants
+from helloflask.controllers.ui_utils import creating_venv_str
 
 
 def venv_init():
@@ -23,7 +23,7 @@ def venv_init():
         sys.exit(stderr)
 
 
-def get_env_vars(project_path: str) -> List[dict, str]:
+def get_env_vars(project_path: str) -> List[Union[dict, str]]:
     """Gets and makes deep copy of environment variables
         and alters the python path to match the python interpreter
         from the created virtual environment

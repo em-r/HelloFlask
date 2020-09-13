@@ -3,17 +3,17 @@ import sys
 import argparse
 import colorama
 
-from classes import OpenDir
-from controllers.os_utils import gen_folder_name
-from controllers.venv_utils import venv_init
-from controllers.packages_utils import install_packages
-from controllers.snippets_utils import copy_snippets
-from controllers.ui_utils import (verify_project_name,
-                                  unspecified_project_name,
-                                  invalid_project_name,
-                                  creating_app_str,
-                                  success_exit
-                                  )
+from helloflask.classes import OpenDir
+from helloflask.controllers.os_utils import gen_folder_name
+from helloflask.controllers.venv_utils import venv_init
+from helloflask.controllers.packages_utils import install_packages
+from helloflask.controllers.snippets_utils import copy_snippets
+from helloflask.controllers.ui_utils import (verify_project_name,
+                                             unspecified_project_name,
+                                             invalid_project_name,
+                                             creating_app_str,
+                                             success_exit
+                                             )
 
 
 def read_from_user():

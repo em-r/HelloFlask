@@ -5,3 +5,4 @@ venv
 build/
 dist/
 .DS_STORE
+*.egg-info

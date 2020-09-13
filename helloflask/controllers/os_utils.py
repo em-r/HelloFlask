@@ -6,7 +6,7 @@ from string import ascii_lowercase, digits
 from random import sample, shuffle
 
 
-def get_os() -> Union[str]:
+def get_os() -> str:
     """Function that uses system() from platform module to detect current OS
 
     Returns:
