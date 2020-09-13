@@ -6,6 +6,11 @@ from pathlib import Path
 
 
 def get_constants() -> Dict[str, dict]:
+    """"Parses ../constants.json file
+
+    Return:
+        dict: constants from constants.json
+    """
     root_dir = Path(os.path.dirname(__file__)).parent
     constants_path = os.path.join(root_dir, 'constants.json')
 
@@ -16,6 +21,13 @@ def get_constants() -> Dict[str, dict]:
 
 
 def read_snippets() -> Dict[str, str]:
+    """Gets code snippets from ../snippets/snippets.py
+
+    Returns:
+        dict: Dictionary where each filename is a key and file 
+                contents is the value to this key
+    """
+
     root_dir = Path(os.path.dirname(__file__)).parent
     snippets_dir = os.path.join(root_dir, 'snippets')
     files = os.listdir(snippets_dir)
@@ -28,6 +40,12 @@ def read_snippets() -> Dict[str, str]:
 
 
 def copy_snippets(project_name: str):
+    """Creates new project files and copies snippets to the created files
+
+    Args:
+        project_name (str): current project name
+    """
+
     from controllers.venv_utils import set_flaskenv
     set_flaskenv()
     snippets = read_snippets()

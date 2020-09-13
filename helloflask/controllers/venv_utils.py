@@ -1,12 +1,15 @@
 import os
 import sys
 import subprocess
+from typing import List
 from controllers.os_utils import get_os
 from controllers.snippets_utils import get_constants
 from controllers.ui_utils import creating_venv_str
 
 
 def venv_init():
+    """Creates virtual environment using subprocess module"""
+
     current_os = get_os()
     print(creating_venv_str())
     if current_os == 'linux':
@@ -20,7 +23,14 @@ def venv_init():
         sys.exit(stderr)
 
 
-def get_env_vars(project_path):
+def get_env_vars(project_path: str) -> List[dict, str]:
+    """Gets and makes deep copy of environment variables
+        and alters the python path to match the python interpreter
+        from the created virtual environment
+
+    Returns:
+        list: List contains environment variables dict and pip path
+    """
     env = os.environ.copy()
     current_os = get_os()
 
@@ -35,6 +45,10 @@ def get_env_vars(project_path):
 
 
 def set_flaskenv():
+    """Creates .flaskenv file and writes 
+        environment variables needed by Flask to it
+    """
+
     try:
         with open('.flaskenv', 'w') as flaskenv:
             env_vars = ['FLASK_APP=run.py', 'FLASK_ENV=development']

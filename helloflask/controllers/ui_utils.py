@@ -24,6 +24,15 @@ def invalid_project_name():
 
 
 def verify_project_name(project_name: str) -> bool:
+    """Checks project name against a regex pattern
+
+    Args:
+        project_name (str): current project name
+
+    Returns:
+        bool: true if there was a match
+              False if there was no match
+    """
     pattern = re.compile(r'^[a-z][a-z0-9_]{1,}$', re.I)
     matches = pattern.match(project_name)
 
@@ -31,6 +40,17 @@ def verify_project_name(project_name: str) -> bool:
 
 
 def wrap_string(string: str, color: str) -> str:
+    """Wraps a given string between colorama color codes to change 
+        the string's color
+
+    Args:
+        string (str): string to be colored
+        color (str): color to be used to color the string
+
+    Returns:
+        str: string wrapped within the color codes from colorama
+    """
+
     wrapper = getattr(Fore, color.upper())
     reset = Fore.RESET
     return f'{wrapper}{string}{reset}'

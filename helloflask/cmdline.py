@@ -17,6 +17,11 @@ from controllers.ui_utils import (verify_project_name,
 
 
 def read_from_user():
+    """Reads input from user and exits if nothing was passed or if input is invalid.
+
+    Returns:
+        str: project_name property from args
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('project_name', type=str, help='Project name')
     args = parser.parse_args()

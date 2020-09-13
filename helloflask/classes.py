@@ -2,8 +2,12 @@ import os
 
 
 class OpenDir:
+    """A class used to access directory using context managers
+        and change directory back after exiting the context 
+        manager
+    """
 
-    def __init__(self, dest):
+    def __init__(self, dest: str):
         self.root = os.getcwd()
         self.destination = dest
 

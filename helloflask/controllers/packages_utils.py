@@ -2,10 +2,18 @@ import subprocess
 import time
 from typing import List
 from controllers.venv_utils import venv_init, get_env_vars
-from controllers.ui_utils import installed_packages_str, to_be_installed_str, list_packages_str
+from controllers.ui_utils import (installed_packages_str,
+                                  to_be_installed_str,
+                                  list_packages_str)
 
 
 def get_user_packages() -> List[str]:
+    """Reads packages names from user input
+
+    Returns:
+        list: List containing the defaults packages and packages supplied by the user
+    """
+
     defaults = ['flask', 'python-dotenv']
     print(to_be_installed_str(defaults))
     extra_packages = input('Add packages (space separated): ').split()
@@ -15,6 +23,12 @@ def get_user_packages() -> List[str]:
 
 
 def install_packages(project_path: str):
+    """Installs packages in virtual environment
+
+    Args:
+        project_path (str): Path to where the project lives
+    """
+
     venv_init()
 
     env, pip = get_env_vars(project_path)
@@ -36,7 +50,16 @@ def install_packages(project_path: str):
     print(list_packages_str(installed_packages))
 
 
-def get_installed_packages(project_path) -> List[str]:
+def get_installed_packages(project_path: str) -> List[str]:
+    """Gets list of installed packages in the virtual environment
+
+    Args:
+        project_path (str): Path to where the project lives
+
+    Returns:
+        list: List of installed packages
+    """
+
     env, pip = get_env_vars(project_path)
     packages = subprocess.run([pip, 'freeze'], capture_output=True, env=env)
     installed_packages = packages.stdout.decode().strip().split('\n')
