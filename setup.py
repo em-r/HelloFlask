@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="HelloFlask",
-    version="1.1.0",
+    version="1.2.0",
     description="Boostrap a Flask project with boilerplate and virtual environment.",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -26,7 +26,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     python_requires=">=3.6.*",
-    install_requires=["colorama"],
+    install_requires=["colorama", "tqdm"],
     entry_points={
         "console_scripts": [
             "helloflask=helloflask.__main__:main",
