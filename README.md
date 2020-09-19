@@ -6,7 +6,7 @@ Python library to automate boostrapping a Flask project.
 
     - Sets up a virtual environment
     - Installs Flask and python-dotenv by default in the virtual environment
-    - Installs third party libraries needed by the user
+    - Installs third party libraries needed by the user asynchronously
     - Creates a flask app with boilerplate files
 
 ## Requirements:
