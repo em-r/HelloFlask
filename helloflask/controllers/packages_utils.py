@@ -1,10 +1,27 @@
-import subprocess
 import time
+import subprocess
+from tqdm import tqdm
 from typing import List
+from itertools import repeat
+from concurrent.futures import ThreadPoolExecutor as Executor
 from helloflask.controllers.venv_utils import venv_init, get_env_vars
 from helloflask.controllers.ui_utils import (installed_packages_str,
                                              to_be_installed_str,
                                              list_packages_str)
+
+
+def async_install(env_pip, package_name: str):
+    """Uses the subprocess to install one package
+    This function will be called by ThreadPoolExecutor 
+    to install packages asynchronously.
+
+    Args:
+        env_pip (list): List that contains dict of env variables, path to pip3
+        package_name (str): package to be installed  
+    """
+    env, pip = env_pip
+    subprocess.run([pip, 'install', package_name],
+                   capture_output=True, env=env)
 
 
 def get_user_packages() -> List[str]:
@@ -37,8 +54,11 @@ def install_packages(project_path: str):
     print(to_be_installed_str(needed_packages, on=True))
 
     start = time.perf_counter()
-    subprocess.run([pip, 'install', *needed_packages],
-                   capture_output=True, env=env)
+
+    with Executor() as executor:
+        threads = list(
+            tqdm(executor.map(async_install, repeat([env, pip]), needed_packages), total=len(needed_packages)))
+
     finish = time.perf_counter()
     timing = round(finish - start, 3)
 
