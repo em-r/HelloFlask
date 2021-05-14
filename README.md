@@ -1,5 +1,7 @@
 # HelloFlask
 
+![downloads](https://static.pepy.tech/badge/helloflask)
+
 Python library to automate boostrapping a Flask project.
 
 ## Features:
